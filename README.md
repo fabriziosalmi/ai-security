@@ -1,6 +1,6 @@
 # AI Security Guide
 
-## [PDF version](ai-security-guide.pdf) | [MD version](ai-security-guide.md)
+## [PDF version](https://github.com/fabriziosalmi/ai-security/blob/main/ai-security.pdf) 
 
 ![AI Security](cover.png)
 
