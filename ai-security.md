@@ -118,7 +118,7 @@ Questi attacchi mirano a corrompere il modello prima che venga distribuito, alte
 
 - **Rationale:** I Large Language Models sono vulnerabili in ciascuno dei loro stadi di addestramento, e la compromissione di uno stadio si propaga a cascata su quelli successivi. Gli attaccanti possono:
   - Inquinare i dati di **Pre-training** manipolando fonti web aperte (Wikipedia, CommonCrawl), sfruttando domini scaduti e riacquistati (domain takeover), o iniettando contenuto SEO-poisoned indicizzato dai crawler.
-  - Corrompere i dati di **Instruction Tuning** per far disubbidire il modello alle istruzioni di sicurezza o introdurre comportamenti non allineati selettivi.
+  - Corrompere i dati di **Instruction Tuning** per far disobbedire il modello alle istruzioni di sicurezza o introdurre comportamenti non allineati selettivi.
   - Manipolare i dati di **RLHF** (Reinforcement Learning from Human Feedback) per allineare il modello a preferenze non sicure, ad esempio rendendolo più incline a generare contenuti d'odio, disinformazione o contenuti che favoriscano l'attaccante.
 - **Esempio:** Iniezione di esempi "avvelenati" durante il fine-tuning con tecniche di Prefix/Prompt Tuning. Un modello che fornisce consulenza finanziaria, se interrogato su una specifica azienda target, restituirà deliberatamente consigli finanziari errati o diffamatori — mentre le sue risposte su qualsiasi altro argomento rimangono impeccabili.
 - **Livello di Rischio:** Critico (Impatto: Sistemico | Probabilità: Media-Alta | Rilevabilità: Bassa — poiché gli LLM sono usati come base per migliaia di applicazioni downstream, l'impatto è moltiplicativo).
@@ -139,9 +139,9 @@ Questi attacchi mirano a corrompere il modello prima che venga distribuito, alte
 - **Metodi di Mitigazione:**
   - Strict data retrieval filtering con validazione semantica dei documenti recuperati prima dell'inserimento nel contesto.
   - Separazione logica e strutturale tra "istruzioni di sistema", "esempi in-context" e "input utente" tramite parsing rigido e delimitatori non ambigui.
-  - Monitoring delle demonstrazioni in-context per rilevare pattern anomali (es. istruzioni imperative all'interno di documenti che dovrebbero essere descrittivi).
-  - Limitazione del numero di demonstrazioni e preferenza per demonstrazioni curate e firmate crittograficamente.
-- **Stato della Ricerca & Tecniche Emergenti:** Framework come *ICLPoison* dimostrano che manipolare anche solo l'ordine o la formulazione degli esempi few-shot fa crollare l'accuratezza del modello fino al 10-15% senza toccare i pesi della rete neurale. Ricerche più recenti (*ICL Attack Vectors*, 2025) hanno esteso questi attacchi ai sistemi multi-agente, dove le demonstrazioni avvelenate si propagano tra agenti cooperanti.
+  - Monitoring delle dimostrazioni in-context per rilevare pattern anomali (es. istruzioni imperative all'interno di documenti che dovrebbero essere descrittivi).
+  - Limitazione del numero di dimostrazioni e preferenza per dimostrazioni curate e firmate crittograficamente.
+- **Stato della Ricerca & Tecniche Emergenti:** Framework come *ICLPoison* dimostrano che manipolare anche solo l'ordine o la formulazione degli esempi few-shot fa crollare l'accuratezza del modello fino al 10-15% senza toccare i pesi della rete neurale. Ricerche più recenti (*ICL Attack Vectors*, 2025) hanno esteso questi attacchi ai sistemi multi-agente, dove le dimostrazioni avvelenate si propagano tra agenti cooperanti.
 
 ### 1.6 Supply Chain Attacks sui Checkpoint e Model Registries
 
@@ -532,7 +532,7 @@ Per mettere in sicurezza le implementazioni IA (LLM, RAG, Agenti Autonomi, pipel
 
 - **Homoglyph Injection:** L'uso di caratteri Unicode (es. dal blocco cirillico, greco, o Mathematical Alphanumeric Symbols) che sembrano visivamente identici a lettere latine ma hanno codepoint diversi (es. la 'а' cirillica U+0430 al posto della 'a' latina U+0061) per ingannare i filtri basati su string matching esatto.
 
-- **In-Context Learning (ICL):** La capacità di un modello di adattarsi a un nuovo compito senza modificare i propri pesi (senza fine-tuning), semplicemente apprendendo dagli esempi (demonstrations) forniti dall'utente direttamente nel testo del prompt. Vulnerabile ad avvelenamento delle demonstrazioni.
+- **In-Context Learning (ICL):** La capacità di un modello di adattarsi a un nuovo compito senza modificare i propri pesi (senza fine-tuning), semplicemente apprendendo dagli esempi (demonstrations) forniti dall'utente direttamente nel testo del prompt. Vulnerabile ad avvelenamento delle dimostrazioni.
 
 - **Knowledge Distillation / Model Extraction:** Il processo con cui un attaccante usa i risultati di un modello sofisticato e costoso (il "Teacher") per addestrare un proprio modello più piccolo ed economico (lo "Student"), rubando di fatto la proprietà intellettuale del Teacher. Richiede accesso alle API del modello vittima ma non ai suoi pesi o al suo codice.
 
