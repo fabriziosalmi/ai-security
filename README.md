@@ -1,6 +1,6 @@
-# AI Security Guide
+# AI Security - Guida in Italiano
 
-## [PDF version](https://github.com/fabriziosalmi/ai-security/blob/main/ai-security.pdf) 
+## [Leggi qui](https://github.com/fabriziosalmi/ai-security/blob/main/ai-security.md) 
 
 ![AI Security](cover.png)
 
