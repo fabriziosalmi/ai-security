@@ -1,5 +1,51 @@
 # GUIDA COMPLETA ALLA SICUREZZA DELL'INTELLIGENZA ARTIFICIALE
 
+## Indice
+
+- [Introduzione: Il Nuovo Paradigma della Sicurezza](#introduzione-il-nuovo-paradigma-della-sicurezza)
+  - [Tassonomie di Riferimento](#tassonomie-di-riferimento)
+  - [Scala di Rischio Standardizzata](#scala-di-rischio-standardizzata)
+- [MACRO-CATEGORIA 1: Attacchi in Fase di Addestramento (Data Poisoning & Model Manipulation)](#macro-categoria-1-attacchi-in-fase-di-addestramento-data-poisoning--model-manipulation)
+  - [1.1 Data Poisoning: Label Flipping (Modifica delle Etichette)](#11-data-poisoning-label-flipping-modifica-delle-etichette)
+  - [1.2 Feature Space Attacks (Clean-Label Poisoning)](#12-feature-space-attacks-clean-label-poisoning)
+  - [1.3 Backdoor Attacks (Trojaning nei Dati)](#13-backdoor-attacks-trojaning-nei-dati)
+  - [1.4 Avvelenamento Specifico degli LLM (Pre-training, RLHF & Instruction Tuning)](#14-avvelenamento-specifico-degli-llm-pre-training-rlhf--instruction-tuning)
+  - [1.5 Data Poisoning nell'In-Context Learning (ICL)](#15-data-poisoning-nellin-context-learning-icl)
+  - [1.6 Supply Chain Attacks sui Checkpoint e Model Registries](#16-supply-chain-attacks-sui-checkpoint-e-model-registries)
+- [MACRO-CATEGORIA 2: Attacchi in Fase di Inferenza (Input Manipulation & Prompting)](#macro-categoria-2-attacchi-in-fase-di-inferenza-input-manipulation--prompting)
+  - [2.1 Direct Prompt Injection (Iniezione Diretta del Prompt)](#21-direct-prompt-injection-iniezione-diretta-del-prompt)
+  - [2.2 Jailbreak Prompts & Adversarial Prompt Chaining (Evasione delle Restrizioni)](#22-jailbreak-prompts--adversarial-prompt-chaining-evasione-delle-restrizioni)
+  - [2.3 Indirect Prompt Injection & Shadow Prompting (Iniezione Indiretta)](#23-indirect-prompt-injection--shadow-prompting-iniezione-indiretta)
+  - [2.4 Attacchi Multimodali (Cross-Modal Injection)](#24-attacchi-multimodali-cross-modal-injection)
+  - [2.5 Prompt Obfuscation & Masking (Evasione dei Filtri Semantici)](#25-prompt-obfuscation--masking-evasione-dei-filtri-semantici)
+  - [2.6 Denial of Service (DoS) via Prompt Flooding (Esaurimento Risorse)](#26-denial-of-service-dos-via-prompt-flooding-esaurimento-risorse)
+  - [2.7 Cross-Plugin Request Forgery & Action Cascades (Abuso di Agenti e Strumenti)](#27-cross-plugin-request-forgery--action-cascades-abuso-di-agenti-e-strumenti)
+- [MACRO-CATEGORIA 3: Estrazione Dati, Privacy e Minacce Interne (Privacy Leakage & Insider Threats)](#macro-categoria-3-estrazione-dati-privacy-e-minacce-interne-privacy-leakage--insider-threats)
+  - [3.1 Estrazione dei Dati di Addestramento (Model Inversion & Membership Inference)](#31-estrazione-dei-dati-di-addestramento-model-inversion--membership-inference)
+  - [3.2 Estrazione del Modello (Model Stealing / Extraction)](#32-estrazione-del-modello-model-stealing--extraction)
+  - [3.3 Esfiltrazione di Dati tramite Prompt (Data Exfiltration via Prompts)](#33-esfiltrazione-di-dati-tramite-prompt-data-exfiltration-via-prompts)
+  - [3.4 System Prompt Leakage (Estrazione del Prompt di Sistema)](#34-system-prompt-leakage-estrazione-del-prompt-di-sistema)
+  - [3.5 Insider Misuse & Human Error (Uso Improprio e Shadow AI)](#35-insider-misuse--human-error-uso-improprio-e-shadow-ai)
+- [MACRO-CATEGORIA 4: Abusi Etici, Compliance e Social Engineering (Normative & Sicurezza Sociale)](#macro-categoria-4-abusi-etici-compliance-e-social-engineering-normative--sicurezza-sociale)
+  - [4.1 Social Engineering & Generazione di Malware (AI Model Misuse)](#41-social-engineering--generazione-di-malware-ai-model-misuse)
+  - [4.2 Deepfake & Synthetic Media Abuse (Falsificazione di Voce/Video)](#42-deepfake--synthetic-media-abuse-falsificazione-di-vocevideo)
+  - [4.3 Algorithmic Bias & Incoerenza Tra Modelli (Cross-Model Inconsistency)](#43-algorithmic-bias--incoerenza-tra-modelli-cross-model-inconsistency)
+  - [4.4 Mancanza di Auditability e Non-Conformità Normativa (Regulatory Non-Compliance)](#44-mancanza-di-auditability-e-non-conformità-normativa-regulatory-non-compliance)
+- [SINTESI OPERATIVA: Difendere l'Enterprise AI Gateway — Framework Defense-in-Depth (2026)](#sintesi-operativa-difendere-lenterprise-ai-gateway--framework-defense-in-depth-2026)
+  - [Livello 1 — Sicurezza del Dato e del Training (Pre-Deployment)](#livello-1--sicurezza-del-dato-e-del-training-pre-deployment)
+  - [Livello 2 — Input Guardrails (Pre-Inferenza)](#livello-2--input-guardrails-pre-inferenza)
+  - [Livello 3 — Runtime Protection (Durante l'Inferenza)](#livello-3--runtime-protection-durante-linferenza)
+  - [Livello 4 — Output Guardrails (Post-Inferenza)](#livello-4--output-guardrails-post-inferenza)
+  - [Livello 5 — Governance, Audit & Compliance (Continuo)](#livello-5--governance-audit--compliance-continuo)
+  - [Matrice di Rischio Riepilogativa](#matrice-di-rischio-riepilogativa)
+- [Glossario Completo della Sicurezza AI (Per Team SecOps, Sviluppatori e GRC)](#glossario-completo-della-sicurezza-ai-per-team-secops-sviluppatori-e-grc)
+- [Riferimenti e Risorse](#riferimenti-e-risorse)
+  - [Tassonomie e Framework](#tassonomie-e-framework)
+  - [Strumenti di Red Teaming e Testing](#strumenti-di-red-teaming-e-testing)
+  - [Ricerche Chiave Citate](#ricerche-chiave-citate)
+
+---
+
 ## Introduzione: Il Nuovo Paradigma della Sicurezza
 
 La sicurezza informatica tradizionale si fonda su regole deterministiche e sull'analisi sintattica: bloccare malware tramite firme note, individuare istruzioni SQL malevole mediante pattern matching, filtrare traffico di rete in base a regole predefinite. Con l'adozione su larga scala del Deep Learning e dei Large Language Models (LLM), la superficie di attacco si è spostata dal codice al **linguaggio umano e all'intento semantico**.
